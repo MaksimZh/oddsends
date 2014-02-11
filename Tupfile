@@ -1,0 +1,2 @@
+: oddsends.d |> dmd $(DFLAGS) -c %f -of%o |> oddsends.o
+: oddsends.o |> dmd $(DFLAGS) -lib %f -of%o |> liboddsends.a
