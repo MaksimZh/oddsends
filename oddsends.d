@@ -14,8 +14,10 @@ import std.traits;
 /** Derive type of the result of binary operation */
 template TypeOfOp(Tlhs, string op, Trhs)
 {
-    alias ReturnType!((Tlhs lhs, Trhs rhs) => mixin("lhs"~op~"rhs"))
-        TypeOfOp;
+    static if (is(FunctionTypeOf!((Tlhs lhs, Trhs rhs) =>
+                                  mixin("lhs"~op~"rhs"))
+                  R == return))
+        alias R TypeOfOp;
 }
 
 /** Test whether binary operation exists for given operand types */
