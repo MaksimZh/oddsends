@@ -17,3 +17,9 @@ template TypeOfOp(Tlhs, string op, Trhs)
     alias ReturnType!((Tlhs lhs, Trhs rhs) => mixin("lhs"~op~"rhs"))
         TypeOfOp;
 }
+
+/** Test whether binary operation exists for given operand types */
+template isExistOp(Tlhs, string op, Trhs)
+{
+    enum isExistOp = is(TypeOfOp!(Tlhs, op, Trhs));
+}
