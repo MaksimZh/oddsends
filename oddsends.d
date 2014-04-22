@@ -10,6 +10,7 @@
 module oddsends;
 
 import std.traits;
+import std.typecons;
 
 /** Derive type of the result of binary operation */
 template TypeOfOp(Tlhs, string op, Trhs)
@@ -24,4 +25,12 @@ template TypeOfOp(Tlhs, string op, Trhs)
 template isExistOp(Tlhs, string op, Trhs)
 {
     enum isExistOp = is(TypeOfOp!(Tlhs, op, Trhs));
+}
+
+template PointersToTypes(T...)
+{
+    static if(T.length == 1)
+        alias T[0]* PointersToTypes;
+    else
+        alias Tuple!(T[0]*, PointersToTypes!(T[1..$])) PointersToTypes;
 }
