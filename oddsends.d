@@ -10,7 +10,7 @@
 module oddsends;
 
 import std.traits;
-import std.typecons;
+import std.typetuple;
 
 /** Derive type of the result of binary operation */
 template TypeOfOp(Tlhs, string op, Trhs)
@@ -32,5 +32,5 @@ template PointersToTypes(T...)
     static if(T.length == 1)
         alias T[0]* PointersToTypes;
     else
-        alias Tuple!(T[0]*, PointersToTypes!(T[1..$])) PointersToTypes;
+        alias TypeTuple!(T[0]*, PointersToTypes!(T[1..$])) PointersToTypes;
 }
