@@ -27,10 +27,18 @@ template isExistOp(Tlhs, string op, Trhs)
     enum isExistOp = is(TypeOfOp!(Tlhs, op, Trhs));
 }
 
-template PointersToTypes(T...)
+template PointersTo(T...)
 {
     static if(T.length == 1)
-        alias T[0]* PointersToTypes;
+        alias T[0]* PointersTo;
     else
-        alias TypeTuple!(T[0]*, PointersToTypes!(T[1..$])) PointersToTypes;
+        alias TypeTuple!(T[0]*, PointersTo!(T[1..$])) PointersTo;
+}
+
+template MakeConst(T...)
+{
+    static if(T.length == 1)
+        alias TypeTuple!(const(T[0])) MakeConst;
+    else
+        alias TypeTuple!(const(T[0]), MakeConst!(T[1..$])) MakeConst;
 }
