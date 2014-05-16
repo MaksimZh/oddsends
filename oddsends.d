@@ -42,3 +42,12 @@ template MakeConst(T...)
     else
         alias TypeTuple!(const(T[0]), MakeConst!(T[1..$])) MakeConst;
 }
+
+template GetMember(string field, Blocks...)
+{
+    static if(Blocks.length == 1)
+        mixin("alias TypeTuple!(Blocks[0]." ~ field ~ ") GetMember;");
+    else
+        mixin("alias TypeTuple!(Blocks[0]." ~ field ~
+            ", GetMember!(field, Blocks[1..$])) GetMember;");
+}
