@@ -46,7 +46,7 @@ template MakeConst(T...)
 template GetMember(string field, T...)
 {
     static if(T.length == 1)
-        mixin("alias TypeTuple!(T[0]." ~ field ~ ") GetMember;");
+        mixin("alias TypeTuple!(T[0]." ~ field ~ ")[0] GetMember;");
     else
         mixin("alias TypeTuple!(T[0]." ~ field ~
             ", GetMember!(field, T[1..$])) GetMember;");
@@ -71,5 +71,36 @@ unittest
 
     static assert(is(GetMember!("Foo", FooA) == int));
     static assert(is(GetMember!("Foo", FooA, FooB, FooC) ==
+        TypeTuple!(int, double, bool)));
+}
+
+template GetMemberType(string field, T...)
+{
+    static if(T.length == 1)
+        mixin("alias typeof(T[0]." ~ field ~ ") GetMemberType;");
+    else
+        mixin("alias TypeTuple!(typeof(T[0]." ~ field ~
+            "), GetMemberType!(field, T[1..$])) GetMemberType;");
+}
+
+unittest
+{
+    struct FooA
+    {
+        int foo;
+    }
+
+    struct FooB
+    {
+        double foo;
+    }
+
+    struct FooC
+    {
+        bool foo;
+    }
+
+    static assert(is(GetMemberType!("foo", FooA) == int));
+    static assert(is(GetMemberType!("foo", FooA, FooB, FooC) ==
         TypeTuple!(int, double, bool)));
 }
