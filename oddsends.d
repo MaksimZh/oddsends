@@ -51,3 +51,25 @@ template GetMember(string field, Blocks...)
         mixin("alias TypeTuple!(Blocks[0]." ~ field ~
             ", GetMember!(field, Blocks[1..$])) GetMember;");
 }
+
+unittest
+{
+    struct FooA
+    {
+        alias int Foo;
+    }
+
+    struct FooB
+    {
+        alias double Foo;
+    }
+
+    struct FooC
+    {
+        alias bool Foo;
+    }
+
+    static assert(is(GetMember!("Foo", FooA) == int));
+    static assert(is(GetMember!("Foo", FooA, FooB, FooC) ==
+        TypeTuple!(int, double, bool)));
+}
