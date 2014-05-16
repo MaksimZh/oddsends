@@ -43,13 +43,13 @@ template MakeConst(T...)
         alias TypeTuple!(const(T[0]), MakeConst!(T[1..$])) MakeConst;
 }
 
-template GetMember(string field, Blocks...)
+template GetMember(string field, T...)
 {
-    static if(Blocks.length == 1)
-        mixin("alias TypeTuple!(Blocks[0]." ~ field ~ ") GetMember;");
+    static if(T.length == 1)
+        mixin("alias TypeTuple!(T[0]." ~ field ~ ") GetMember;");
     else
-        mixin("alias TypeTuple!(Blocks[0]." ~ field ~
-            ", GetMember!(field, Blocks[1..$])) GetMember;");
+        mixin("alias TypeTuple!(T[0]." ~ field ~
+            ", GetMember!(field, T[1..$])) GetMember;");
 }
 
 unittest
