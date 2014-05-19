@@ -104,3 +104,36 @@ unittest
     static assert(is(GetMemberType!("foo", FooA, FooB, FooC) ==
         TypeTuple!(int, double, bool)));
 }
+
+template isAll(string pred, T...)
+{
+    static assert(T.length > 0);
+    alias T[0] a;
+    enum bool isFirst = mixin(pred);
+    static if(T.length == 1)
+        enum bool isAll = isFirst;
+    else
+        enum bool isAll = isFirst && isAll!(pred, T[1..$]);
+}
+
+unittest
+{
+    struct FooA
+    {
+        int foo;
+    }
+
+    struct FooB
+    {
+        double foo;
+    }
+
+    struct FooC
+    {
+        bool foo;
+    }
+
+    import std.traits;
+    static assert(isAll!("hasMember!(a, \"foo\")", FooA, FooB, FooC));
+    static assert(!isAll!("hasMember!(a, \"foo\")", FooA, FooB, FooC, int));
+}
