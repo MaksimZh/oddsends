@@ -1,2 +1,2 @@
 include_rules
-: oddsends.d |> !link |> liboddsends.a
+: oddsends.d |> !link |> liboddsends.a ../<oddsends>
