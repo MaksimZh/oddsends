@@ -1,5 +1,7 @@
-*~
-.tup/*
-*.o
 *.a
-test/test
+*.o
+*.obj
+
+.dub
+dub.selections.json
+oddsends-test-library

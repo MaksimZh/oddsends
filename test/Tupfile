@@ -1,7 +1,0 @@
-include_rules
-DFLAGS += -unittest
-
-: *.d ../*.d |> !dcompile |> test.o
-: test.o |> !build |> test
-
-: test |> ./test |>

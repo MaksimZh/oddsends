@@ -1,5 +1,0 @@
-import oddsends;
-
-void main()
-{
-}
